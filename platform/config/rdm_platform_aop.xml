@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<aops>
+	<!--
+		rdm_platform v1.0 support four type AOP:
+		
+		1.common entity AOP:
+			'TSK'  PUBLISH,SUSPEND,CHANGE,AUDITPASS,AUDITNOPASS. see line 20 [entity AOP example]
+			
+		2.timer AOP: call at RDM system optimize. see line 30 [timer AOP example]
+			module    'TIMER'
+			operation  the period of timer
+			class      the execute class
+		
+		3.life cycle AOP: phase and transition. <config in RDM>
+		
+		4.work flow AOP:  node and transition. <config in RDM>
+	 -->
+
+	<!-- entity AOP example -->
+	
+	<!-- 
+	<aop>
+		<module>TSK</module>
+		<operation>SUSPEND</operation>
+		<class>com.bronzesoft.test.aop.TaskAopTest</class>
+	</aop>
+	-->
+	 
+	<!-- timer AOP example -->
+	
+	<!-- 
+	<aop>
+		<module>TIMER</module>
+		<operation>86400000</operation>
+		<class>com.bronzesoft.test.aop.TimerAopTest</class>
+	</aop>
+	-->
+	
+</aops>

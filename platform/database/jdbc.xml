@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<connections>
+	<!--
+		rdm_platform v1.0 support many database connection.
+		
+		the example to get the database CURD:
+		
+		<code>
+			//"db2" is connection id, if not has the parameter, it will get the default connection <default is the first connection>
+			IExtendDao dao = PowerAPI.extendDao("db2");
+		</code>
+	 -->
+
+	<!-- connection example -->
+	
+	<!-- SQL SERVER 
+	<connection id="db1">
+		<driverclass>net.sourceforge.jtds.jdbc.Driver</driverclass>
+		<url>jdbc:jtds:sqlserver://192.168.5.5:1433;databaseName=rdmServer;SelectMethod=cursor</url>
+		<username>sa</username>
+		<password>sasasasa</password>
+	</connection>
+	-->
+	
+	<!-- MYSQL 
+	<connection id="db2">
+		<driverclass>com.mysql.jdbc.Driver</driverclass>
+		<url>jdbc:mysql://192.168.5.5:3306/rdmServer?createDatabaseIfNotExist=false&amp;useUnicode=true&amp;characterEncoding=utf-8</url>
+		<username>sa</username>
+		<password>sasasasa</password>
+	</connection>
+	-->
+	
+	<!-- ORACLE 
+	<connection id="db3">
+		<driverclass>oracle.jdbc.driver.OracleDriver</driverclass>
+		<url>jdbc:oracle:thin:@192.168.5.5:1521:rdmServer</url>
+		<username>system</username>
+		<password>admin</password>
+	</connection>
+	-->
+	
+</connections>

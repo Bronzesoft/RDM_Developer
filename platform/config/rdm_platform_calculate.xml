@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<modules>
+
+	<!--
+	<module id="MST">
+		<calculation id="whole">com.bronzesoft.demo.calculate.WholeCalculationImpl</calculation>
+		
+		<calculation id="phase">com.bronzesoft.demo.calculate.PhaseCalculationImpl</calculation>
+	</module>
+	-->
+
+</modules>
