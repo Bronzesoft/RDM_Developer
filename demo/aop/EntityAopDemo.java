@@ -41,7 +41,7 @@ public class EntityAopDemo extends Aop{
 			flag = true;
 		}
 		
-		// 校验Remark字段的值。
+		// 校验Remark字段的值 。
 		if("ssss".equals(data.getProperty("Remark"))) {
 			System.out.println("success too!!!");
 			
