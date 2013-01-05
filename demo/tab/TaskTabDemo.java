@@ -48,7 +48,7 @@ public class TaskTabDemo extends Tab {
 		Map data = new HashMap();
 		
 		/**
-		 * 模板页面中直接使用${userId}取得值 。
+		 * 模板页面中直接使用${userId}取得值；
 		 */
 		data.put("user", loginUserId);
 		IExtendDao dao = (ExtendDao)PowerAPI.extendDao("db2");
