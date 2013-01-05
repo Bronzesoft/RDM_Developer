@@ -50,7 +50,7 @@ public class EntityAopDemo extends Aop{
 
 
 		// 与其他数据库中信息比较。
-		/**
+		/***
 		 * 在jdbc.xml文件中配置所要执行数据库信息，例如：
 		 * 
 		 * <connection id="db1">
