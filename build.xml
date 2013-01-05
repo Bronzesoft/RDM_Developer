@@ -1,0 +1,47 @@
+<project name="rdm_platform_client" basedir="." default="deploy">
+  
+	<!-- 配置开始 -->
+	
+	<property name="power.dir" value="C:\Program Files\Bronzesoft\RDM\Application\rdmapp\power"/> <!-- RDM DEBUG 安装目录下power路径 -->
+	<property name="jdk.dir" value="C:\Program Files\Java\jdk1.6.0_03"/> <!-- JDK 安装目录 -->
+	<property name="custom_jar" value="platform-custom.jar"/> <!-- 二次开发代码打包为jar的文件名 -->
+
+	<property name="version" value="1.5"/>
+	<property name="src" value="src"/>
+	<property name="dest" value="bin"/>
+	
+	<!-- 配置结束-->
+	
+	<path id="classpath">
+		<pathelement location="${jdk.dir}/lib/tools.jar"/> 
+        <fileset dir="lib" includes="*.jar"/>
+    </path>
+	
+	<target name="clean">
+		<delete dir="${dest}"/>
+	</target>
+	
+	<target name="build">
+		<mkdir dir="${dest}"/>
+		<javac srcdir="${src}" destdir="${dest}" target="${version}" encoding="utf-8" debug="true">
+			<classpath refid="classpath" />
+		</javac>
+		<jar jarfile="platform\plugins\${custom_jar}" basedir="${dest}"></jar>
+	</target>
+	
+	<target name="copy">
+		<copy todir="${power.dir}\platform">
+			<fileset dir="platform">
+				<exclude name="**/CVS/**"/>
+				<exclude name="**/lib/**"/>
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="deploy">
+		<antcall target="clean"/>
+		<antcall target="build"/>
+		<antcall target="copy"/>
+		<antcall target="clean"/>
+	</target>
+</project>
