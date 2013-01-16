@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<!-- 为小应用的升级使用，初始上传为1.0版本,之后升级一次，version对应的值为之前版本的值。 -->
-<appversion>
-	<version key="base">1.0</version>
-</appversion>
