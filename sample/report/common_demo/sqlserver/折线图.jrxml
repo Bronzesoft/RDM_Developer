@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="折线图" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.callouts" value="##Tue Jan 15 11:20:59 CST 2013\ncallouts.1.pins=460,35;\ncallouts.1.text=\u4EE5\u6298\u7EBF\u5F62\u5F0F\uFF0C\u5C55\u73B0\u4E24\u70B9\u4E4B\u95F4\u7684\u6570\u636E\u8D8B\u52BF\uFF0C\u8BE5\u89C6\u56FE\u5728\u7EDF\u8BA1\u65B9\u9762\u5E76\u6CA1\u592A\u5927\u4F5C\u7528\uFF0C\u4F46\u662F\u5BF9\u4E8E\u8D8B\u52BF\u7684\u5C55\u73B0\u65F6\u5B83\u7684\u5F3A\u9879\u3002\u5982\u5BF9\u4E00\u4E2A\u65F6\u95F4\u6BB5\u7684\u9879\u76EE\u53D1\u73B0\u8D8B\u52BF\u8FDB\u884C\u5206\u6790\uFF0C\u53EF\u4E86\u89E3\u9879\u76EE\u7684\u5065\u5EB7\u8D8B\u52BF\uFF0C\u53EF\u5BF9\u9879\u76EE\u7EC4\u6210\u5458\u5DE5\u4F5C\u8D28\u91CF\u8FDB\u884C\u521D\u6B65\u8BC4\u5224\u3002\ncallouts.1.bounds=536,94,150,168"/>
+	<parameter name="所属项目" class="rdm.project">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select count(b.id) as count, b.createdtime from t_bug_bug b where b.projectId in ($P!{所属项目}) group by b.createdtime order by b.createdtime asc]]>
+	</queryString>
+	<field name="count" class="java.lang.Integer"/>
+	<field name="createdtime" class="java.sql.Timestamp"/>
+	<variable name="num" class="java.lang.Integer" resetType="Group" resetGroup="date" calculation="Sum">
+		<variableExpression><![CDATA[$F{count}]]></variableExpression>
+	</variable>
+	<group name="date">
+		<groupExpression><![CDATA[($F{createdtime}.getYear() + 1900) + "年" + ($F{createdtime}.getMonth() + 1) + "月" + $F{createdtime}.getDate()]]></groupExpression>
+		<groupHeader>
+			<band/>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="802" splitType="Stretch">
+			<lineChart>
+				<chart>
+					<reportElement x="0" y="0" width="555" height="400"/>
+					<chartTitle>
+						<font size="14"/>
+						<titleExpression><![CDATA["缺陷发现趋势图"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["缺陷发现趋势"]]></seriesExpression>
+						<categoryExpression><![CDATA[($F{createdtime}.getYear() + 1900) + "年" + ($F{createdtime}.getMonth() + 1) + "月" + $F{createdtime}.getDate()]]></categoryExpression>
+						<valueExpression><![CDATA[$V{num}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<linePlot>
+					<plot labelRotation="-45.0"/>
+				</linePlot>
+			</lineChart>
+		</band>
+	</summary>
+</jasperReport>

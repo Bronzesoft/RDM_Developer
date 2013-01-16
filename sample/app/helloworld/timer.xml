@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+	小应用系统定时刷新数据
+	
+	action标签：定义对应的定时器类和执行方法
+	id属性：对应所要执行类的key值
+	class属性：对应定时器方法所在的类
+	method属性：定时器所执行的方法
+	
+	定时器内的方法都是每天系统优化时间调用。
+ -->
+
+<actions>
+	<action id="demo" class="com.bronzesoft.demo.app.AppDemo" method="time"/>
+</actions>

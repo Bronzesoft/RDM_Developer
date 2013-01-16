@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="蛛状图" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.callouts" value="##Tue Jan 15 11:10:52 CST 2013\ncallouts.1.pins=419,53;\ncallouts.1.text=\ \u4EE5\u86DB\u72B6\u5F62\u5F0F\uFF0C\u5C55\u793A\u7528\u6237\u7684\u5404\u9879\u6570\u636E\u6307\u6807\uFF0C\u6BD4\u5982\u53D1\u73B0\u7F3A\u9677\u6570\u91CF\uFF0C\u53D1\u73B0\u98CE\u9669\u6570\u91CF\u7B49\u7B49\u3002\u6BCF\u9879\u6570\u636E\u90FD\u53EF\u4EE5\u6709\u5355\u72EC\u7684\u8BA1\u7B97\u89C4\u5219\uFF0C\u4F53\u73B0\u5404\u9879\u6307\u6807\u7684\u540C\u65F6\uFF0C\u7528\u6237\u5728\u56E2\u961F\u4E2D\u505A\u51FA\u7684\u8D21\u732E\u4E5F\u5C31\u5F97\u4EE5\u4F53\u73B0\uFF0C\u4EA6\u53EF\u5BF9\u591A\u4E2A\u7528\u6237\u6570\u636E\u8FDB\u884C\u5BF9\u6BD4\u3002\ncallouts.1.bounds=539,116,150,168"/>
+	<parameter name="用户" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select u.username
+,(select count(b.id) from t_bug_bug b where b.creatorid = u.id) as bNum
+,(select count(t.id) from t_tsk_tsk t where t.creatorid = u.id) as tNum
+,(select count(r.id) from t_Rsk_Rsk r where r.creatorId = u.id) as rNum
+,(select count(d.id) from t_doc_doc d where d.creatorId = u.id) as dNum
+,(select count(theme.id) from t_bbs_theme theme where theme.creatorId = u.id) as themeNum
+,(select count(rew.id) from t_rew_review rew where rew.creatorId = u.id) as rewNum
+ from t_Sys_User u, t_bug_bug b where u.username = $P{用户} and b.creatorid = u.id]]>
+	</queryString>
+	<field name="username" class="java.lang.String"/>
+	<field name="bNum" class="java.lang.Long"/>
+	<field name="tNum" class="java.lang.Long"/>
+	<field name="rNum" class="java.lang.Long"/>
+	<field name="dNum" class="java.lang.Long"/>
+	<field name="themeNum" class="java.lang.Long"/>
+	<field name="rewNum" class="java.lang.Long"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="802" splitType="Stretch">
+			<componentElement>
+				<reportElement x="0" y="0" width="555" height="400"/>
+				<sc:spiderChart xmlns:sc="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<sc:chartSettings>
+						<chartTitle>
+							<font size="14"/>
+							<titleExpression><![CDATA["人员能力对比分析"]]></titleExpression>
+						</chartTitle>
+						<chartSubtitle/>
+						<chartLegend/>
+					</sc:chartSettings>
+					<sc:spiderDataset>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{username} + "能力图"]]></seriesExpression>
+							<categoryExpression><![CDATA["发现缺陷能力"]]></categoryExpression>
+							<valueExpression><![CDATA[$F{bNum}]]></valueExpression>
+						</categorySeries>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{username} + "能力图"]]></seriesExpression>
+							<categoryExpression><![CDATA["分发任务能力"]]></categoryExpression>
+							<valueExpression><![CDATA[$F{tNum}]]></valueExpression>
+						</categorySeries>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{username} + "能力图"]]></seriesExpression>
+							<categoryExpression><![CDATA["发现风险能力"]]></categoryExpression>
+							<valueExpression><![CDATA[$F{rNum}]]></valueExpression>
+						</categorySeries>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{username} + "能力图"]]></seriesExpression>
+							<categoryExpression><![CDATA["文档上传能力"]]></categoryExpression>
+							<valueExpression><![CDATA[$F{dNum}]]></valueExpression>
+						</categorySeries>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{username} + "能力图"]]></seriesExpression>
+							<categoryExpression><![CDATA["言论发布能力"]]></categoryExpression>
+							<valueExpression><![CDATA[$F{themeNum}]]></valueExpression>
+						</categorySeries>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{username} + "能力图"]]></seriesExpression>
+							<categoryExpression><![CDATA["发起评审能力"]]></categoryExpression>
+							<valueExpression><![CDATA[$F{rewNum}]]></valueExpression>
+						</categorySeries>
+					</sc:spiderDataset>
+					<sc:spiderPlot isWebFilled="true"/>
+				</sc:spiderChart>
+			</componentElement>
+		</band>
+	</summary>
+</jasperReport>

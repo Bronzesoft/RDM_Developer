@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+	
+	<!-- 
+		小应用基本信息标签：
+		
+		ID标签：上传小应用时在后面添加“.时间”，便于唯一确定上传的小应用。如appDemo.20120106155555
+		Name标签：上传小应用后显示的标题;
+		Author标签：小应用作者;
+		Version标签：小应用版本，用于小应用升级，初始为1.0版本;
+		UrlStr标签：公司网址或作者技术博客空间;
+		Remark标签：用于概述小应用的作用;
+	 -->
+	<AppInfo>
+		<ID>appDemo</ID>
+		<Name>小应用开发</Name>
+		<Author>Bronzesoft</Author>
+		<Version>1.0</Version>
+		<UrlStr>http://www.bronzesoft.com</UrlStr>
+		<Remark>开发小应用Demo.</Remark>
+	</AppInfo>
+	
+	<!-- 
+		小应用操作菜单，如：折叠、编辑、评论、关于等。默认有：折叠、编辑、共享、删除、评论、关于操作。
+		
+		MenuItem标签：自定义菜单，菜单包括名称和点击后执行的操作。可以同时存在多个MenuItem标签;
+		name属性：标签名称;
+		action属性：点击后执行的操作，操作调用<Content></Content>中的JS方法;
+	-->
+	<Menu>
+		<MenuItem name="menu" action="_rdm_menuTest()"></MenuItem>
+	</Menu>
+	
+	
+	<!-- 
+		用户个性化配置，点击编辑操作后，将显示编辑列表，设置小应用显示视图。 
+		
+		name属性：配置对象的唯一标示
+		display_name属性: tab页显示编辑对象名称
+		datatype属性: 编辑对象的类型，包括：String（默认）、int、enum类型，其中：String类型可以设置默认值
+		default_value属性：编辑对象的默认值。
+		min_value属性：对datatype类型为int有效，限定编辑最小值。
+		max_value属性：对datatype类型为int有效，限定编辑最大值。
+		
+		EnumValue子标签：对datatype类型为enum有效，设置下拉列表的值。
+	-->
+	<UserPref name="showName" display_name="名称" datatype="String" default_value="demo"/>
+	<UserPref name="pageSize" display_name="每页显示数目" datatype="int" default_value="8" min_value="1" max_value="10000"/>
+	<UserPref name="fontSize" display_name="字体大小" datatype="enum" default_value="11px">
+		<EnumValue value="11px"/>
+		<EnumValue value="12px"/>
+		<EnumValue value="13px"/>
+		<EnumValue value="14px"/>
+		<EnumValue value="15px"/>
+	</UserPref>
+	
+	<!-- 小应用显示内容区域，与开发html类似。 
+	
+		注意：
+			1、所有标签id、变量、方法名称都需要使用_rdm_开头。如：<table id="_rdm_demo"></table>
+			
+			2、通过appRights得到小应用权限，若设置为【无】对应值为0，【查看】对应值为1，【管理】对应值为2。
+			
+			3、若需要提供最大化，则需要重写_rdm_max(flag)方法，若flag为true，则最大化，否则为最小化。
+			
+			4、若需要调用后台java程序，调用_rdm_gadget.gadgetCall("actionId", "methodName", params, returnFunction)方法,
+				其中：actionId为action.xml中对应配置的action的ID值，具体详细请参考action.xml说明；
+					 methodName为actionId对应类中的方法名称，返回值必须为String类型，且参数类型为String类型；
+					 params为参数值，用数组存放[param1,param2,...]，数量必须与actionId对应类中方法的参数相同且一一对应；
+					 returnFunction为后台方法执行完成后需要调用的回调函数名称，将后台返回的String值作相应的处理。
+			
+			5、若需要执行下载操作（目前只支持Excel导出），调用_rdm_gadget.gadgetDownload('actionId', 'methodName', params)方法
+				其中：actionId为action.xml中对应配置的action的ID值，具体详细请参考action.xml说明；
+					 methodName为actionId对应类中的方法名称，返回值必须为String数组，且参数类型为Map类型，返回的值为导出的文件名称和文件导出地址,即：fileName，filePath；
+					 params为二维数组，且params[][0]为对应的参数名称，params[][1]为对应参数值，
+					 	在methodName方法中使用ParameterUtil.getParameterValue(params[][0], map)取得参数值。
+			
+			6、在调用_rdm_gadget之前，必须为其赋值：var _rdm_gadget = gadget;
+			
+			7、向后台传递的参数中不允许存在%，若有，则先进行替换，传到后台后再替换回来。
+		具体参考以下实例：
+	-->
+	<Content type="html">
+	<![CDATA[
+	<div id="_rdm_demo1" style="display:none;"></div>
+	<div id="_rdm_demo2" style="display:none;"></div>
+	
+	<div id="_rdm_demo3" style="width: 100%; text-align: center;"><img src="../../images/custom/_rdm_icon.jpg"/></div>
+	
+	<script type="text/javascript">
+		var _rdm_gadget = gadget;
+		
+		function _rdm_max(flag){
+			//最小化时显示一张图片。
+			if(!flag){
+				$("#_rdm_demo1, #_rdm_demo2").hide();
+				$("#_rdm_demo3").show();
+			} 
+			
+			//  最大化时，从后台得到信息显示。
+			else {
+				// 调用后台java程序,参数不存在可以为空。
+				_rdm_gadget.gadgetCall("demo", "demoTest", ["param1","param2"], _rdm_init);
+			}
+		}
+		
+		// 回调函数，msg 为后台返回值
+		function _rdm_init(msg){
+			// 得到小应用权限，根据权限显示相应的内容。
+			if(appRights){
+				$("#_rdm_demo1, #_rdm_demo3").hide();
+				$("#_rdm_demo2").show();
+				
+				$(msg).appendTo($("#_rdm_demo2"));
+			} else {
+				$("#_rdm_demo3, #_rdm_demo2").hide();
+				$("#_rdm_demo1").show();
+				
+				$(msg).appendTo($("#_rdm_demo1"));
+			}
+		}
+		
+		// 自定义操作菜单
+		function _rdm_menuTest(){
+			alert("hello, this is a menu test!");
+		}
+		
+		// 导出demo
+		function _rdm_export() {
+			var params = [['param1', _rdm_analysType],['param2', _rdm_anslysObject]];
+			_rdm_gadget.gadgetDownload('demo', 'export', params);
+		}
+	</script>
+	]]>
+	</Content>
+</Module>

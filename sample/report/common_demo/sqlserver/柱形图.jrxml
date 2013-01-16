@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="柱形图" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.callouts" value="##Tue Jan 15 11:22:46 CST 2013\ncallouts.1.pins=404,23;\ncallouts.1.text=\u4EE5\u67F1\u72B6\u5F62\u5F0F\uFF0C\u4EE5\u6708\u4E3A\u5355\u4F4D\u6309\u7167\u7C7B\u522B\u7EDF\u8BA1\u9879\u76EE\u8D44\u91D1\u652F\u51FA\u60C5\u51B5\uFF0C\u548C\u997C\u56FE\u4E0D\u540C\uFF0C\u8BE5\u56FE\u80FD\u7A81\u663E\u652F\u51FA\u7C7B\u522B\u7684\u8D8B\u52BF\u548C\u5355\u4F4D\u65F6\u95F4\u652F\u51FA\u60C5\u51B5\uFF0C\u66F4\u52A0\u7EC6\u5316\u5BF9\u8D44\u91D1\u6D41\u5411\u8FDB\u884C\u5206\u6790\u3002\ncallouts.1.bounds=567,144,150,123"/>
+	<parameter name="所属项目" class="rdm.project">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select e.id, e.expendDate, e.amount, (select f.name from t_Sys_FinSub f where f.id = e.subjectId) as subjectId from t_Psm_PjtExp e  where e.projectId in ($P!{所属项目}) order by e.expendDate]]>
+	</queryString>
+	<field name="id" class="java.lang.String"/>
+	<field name="expendDate" class="java.sql.Timestamp"/>
+	<field name="amount" class="java.lang.Double"/>
+	<field name="subjectId" class="java.lang.String"/>
+	<variable name="groupSum" class="java.lang.Long" resetType="Group" resetGroup="exp group" calculation="Sum">
+		<variableExpression><![CDATA[$F{amount}]]></variableExpression>
+	</variable>
+	<variable name="sub sum" class="java.lang.Long" resetType="Group" resetGroup="sub" calculation="Sum">
+		<variableExpression><![CDATA[$F{amount}]]></variableExpression>
+	</variable>
+	<variable name="total" class="java.lang.Long" calculation="Sum">
+		<variableExpression><![CDATA[$F{amount}]]></variableExpression>
+	</variable>
+	<group name="exp group">
+		<groupExpression><![CDATA[($F{expendDate}.getYear() + 1900) + "年" + $F{expendDate}.getMonth() + "月"]]></groupExpression>
+		<groupHeader>
+			<band/>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<group name="sub">
+		<groupExpression><![CDATA[$F{subjectId}]]></groupExpression>
+		<groupHeader>
+			<band/>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="800" splitType="Stretch">
+			<bar3DChart>
+				<chart isShowLegend="true" theme="aegean">
+					<reportElement x="0" y="0" width="555" height="450"/>
+					<chartTitle>
+						<font size="18"/>
+						<titleExpression><![CDATA["项目支出统计"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend position="Bottom"/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{subjectId}]]></seriesExpression>
+						<categoryExpression><![CDATA[($F{expendDate}.getYear() + 1900) + "年" + ($F{expendDate}.getMonth() + 1)+ "月"]]></categoryExpression>
+						<valueExpression><![CDATA[$V{sub sum}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<bar3DPlot isShowLabels="true">
+					<plot labelRotation="90.0"/>
+					<itemLabel/>
+				</bar3DPlot>
+			</bar3DChart>
+		</band>
+	</summary>
+</jasperReport>

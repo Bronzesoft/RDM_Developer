@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="柱状图—堆栈（风险）" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.callouts" value="##Tue Jan 15 11:12:55 CST 2013\ncallouts.1.pins=363,44;\ncallouts.1.text=\u4EE5\u67F1\u72B6\u56FE\u7684\u5F62\u5F0F\uFF0C\u4EE5\u4EBA\u5458\u4E3A\u5355\u4F4D\uFF0C\u6309\u7167\u98CE\u9669\u6D41\u7A0B\u72B6\u6001\u6765\u7EDF\u8BA1\uFF0C\u5E76\u4EE5\u5806\u6808\u7684\u5F62\u5F0F\u663E\u793A\uFF0C\u53EF\u4EE5\u4F7F\u5F97\u98CE\u9669\u4E0E\u53D1\u73B0\u8005\u4E4B\u95F4\u7684\u5173\u7CFB\u4E00\u76EE\u4E86\u7136\uFF0C\u5E76\u4E14\u6D41\u7A0B\u7684\u72B6\u6001\u4E5F\u5728\u5217\uFF0C\u6E05\u695A\u7684\u77E5\u9053\u6D41\u7A0B\u7684\u4FEE\u6539\u60C5\u51B5\u3002\ncallouts.1.bounds=574,74,150,153"/>
+	<parameter name="所属项目" class="rdm.project">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select b.name as bugname
+,(select u.userName from t_Sys_User u where u.id = b.creatorId) as username
+,(select s.name from t_wf_status s where s.id = b.statusid) as statusname
+from t_rsk_rsk b where b.projectId in ($P!{所属项目}) order by b.createdTime]]>
+	</queryString>
+	<field name="bugname" class="java.lang.String"/>
+	<field name="username" class="java.lang.String"/>
+	<field name="statusname" class="java.lang.String"/>
+	<variable name="userTotal" class="java.lang.Integer" resetType="Group" resetGroup="user" calculation="Count">
+		<variableExpression><![CDATA[$F{bugname}]]></variableExpression>
+	</variable>
+	<variable name="statusTotal" class="java.lang.Integer" resetType="Group" resetGroup="status" calculation="Count">
+		<variableExpression><![CDATA[$F{bugname}]]></variableExpression>
+	</variable>
+	<group name="user">
+		<groupExpression><![CDATA[$F{username}]]></groupExpression>
+		<groupHeader>
+			<band/>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<group name="status">
+		<groupExpression><![CDATA[$F{statusname}]]></groupExpression>
+		<groupHeader>
+			<band/>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="802" splitType="Stretch">
+			<stackedBar3DChart>
+				<chart isShowLegend="true" theme="eye.candy.sixties">
+					<reportElement x="0" y="0" width="555" height="450"/>
+					<chartTitle>
+						<titleExpression><![CDATA["项目风险发现统计"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend position="Bottom"/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{statusname} == null ? "无状态" : $F{statusname}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{username}]]></categoryExpression>
+						<valueExpression><![CDATA[$V{statusTotal}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<bar3DPlot isShowLabels="true">
+					<plot/>
+					<itemLabel/>
+				</bar3DPlot>
+			</stackedBar3DChart>
+		</band>
+	</summary>
+</jasperReport>
