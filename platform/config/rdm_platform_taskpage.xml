@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+1、XML字段说明
+
+	a) <page> 字段 
+		id : 页面ID
+  b) <field> 字段
+		id : 字段ID
+		iswrite : 是否可编辑
+    isrequire : 是否必填
+    row : 页面布局 单行（2）或半行（1）
+                
+2、页面ID说明
+
+	a) "VIEW"： 查看页面
+  b) "ADD" : 新建页面
+	c) "editView" : 编辑查看页面
+  d) "report" : 填写工作进展页面
+  e) "transmit" : 转发任务页面
+	f) "suspend" : 暂停页面
+	g) "recover" : 恢复页面
+	h) "stop" : 强制终止页面
+  i) "submit" : 提交审核页面
+	j) "audit" : 审核页面
+          
+3、页面特殊字段说明
+    
+  a) "edit_reason" : 变更原因
+	b) "suspend_date" :暂停日期
+	c) "operate_remark" : 描述（用于填写工作进展）
+	d) "audit_result" : 审核结果
+	e) "transmit_owner" : 转发责任人
+	f) "transmit_actor" : 转发参与人
+	g) "report_id" : 执行日报ID
+	h) "report_action_date" : 执行日期
+	i) "report_rate" : 执行日报完成率
+	j) "report_in_work" : 当日投入工作量
+	k) "report_end_date" : 预计完成日期
+	l) "report_remain_work" : 预计剩余工作量
+	m) "report_question" ： 存在问题
+
+注： a)其他普通字段使用字段名称即可
+		 b)将本文件放到power\platform\config目录下
+
+4、示例
+<pages>
+	<page id="submit">
+		<field id="Name" iswrite="N" isrequire="N" row="2"></field>
+		<field id="SlfEvaID" iswrite="Y" isrequire="Y" row="1"></field>
+		<field id="AuditorID" iswrite="Y" isrequire="Y" row="1"></field>
+		<field id="SlfEvaDet" iswrite="Y" isrequire="Y" row="2"></field>
+	</page>
+</pages>
+
+-->
+
